@@ -280,9 +280,9 @@
 
     // إرسال الرسالة
     const sendData = {
-        chat_id: chatId,
-        text: `موضوع الخدمة: ${serviceType}\nالرسالة: ${message}`
-    };
+    chat_id: chatId,
+    text: `${serviceType}: ${message}`
+};
 
     // إرسال طلب HTTP باستخدام Fetch API
     fetch(apiUrl, {
@@ -324,9 +324,9 @@ function sendPhoto() {
     const apiUrl = `https://api.telegram.org/bot${token}/sendPhoto`;
 
     const formData = new FormData();
-    formData.append('chat_id', chatId);
-    formData.append('photo', selectedFile);
-    formData.append('caption', `موضوع الخدمة: ${document.getElementById('serviceType').value}\n${document.getElementById('message').value}`);
+formData.append('chat_id', chatId);
+formData.append('photo', selectedFile);
+formData.append('caption', `${document.getElementById('serviceType').value}: ${document.getElementById('message').value}`);
 
     // إرسال طلب HTTP باستخدام Fetch API
     fetch(apiUrl, {
@@ -389,13 +389,17 @@ window.onload = removeOldData;
             <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" />
         </div>
 
-        <select id="serviceType">
-            <option value="">اختر نوع الخدمة</option>
-            <option value="وثائق مفقودة">وثائق مفقودة</option>
-            <option value="أغراض مفقودة">أغراض مفقودة</option>
-           <option value="أرقام هواتف">أرقام هواتف</option>
-            <option value="طلب مساعدة">طلب مساعدة</option>
-        </select>
+     <select id="serviceType">
+    <option value="">اختر نوع الخدمة</option>
+    <option value="وثائق مفقودة">وثائق مفقودة (بطاقة التعريف، رخصة السياقة، بطاقة بنكية...)</option>
+    <option value="أغراض مفقودة">أغراض مفقودة (مفتاح، هاتف، دراجة، محفظة...)</option>
+    <option value="أرقام هواتف">أرقام هواتف (طبيب، بيطري، محامي، كاتب...)</option>
+    <option value="طلب مساعدة">طلب مساعدة (تبرع بالدم، تطوع، وظيفة، أدوية، استفسار...)</option>
+    <option value="أشخاص">أشخاص (جنازة، حادث سير، ضياع أطفال...)</option>
+    <option value="ظواهر اجتماعية">ظواهر اجتماعية (ضرب القطط، رمي الطعام، فساد الأخلاق...)</option>
+</select>
+   
+</select>
     </div>
 
     <textarea id="message" placeholder="اكتب رسالتك هنا..."></textarea>
@@ -406,5 +410,37 @@ window.onload = removeOldData;
         <img id="thumbnail-img" src="" alt="صورة المعاينة" />
         <button class="close-button" onclick="closeThumbnail()">إغلاق</button>
     </div>
+    <!-- باقي محتويات الصفحة -->
+
+    <div class="thumbnail" id="thumbnail">
+        <img id="thumbnail-img" src="" alt="صورة المعاينة" />
+        <button class="close-button" onclick="closeThumbnail()">إغلاق</button>
+    </div>
+<footer style="background-color: transparent; text-align: center; padding: 10px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 1;">
+    <p style="font-size: 14px; margin: 0;">
+        
+        <a href="https://bidjadg.my.canva.site/" style="color: blue; text-decoration: none;">bidjad</a>
+        تم انشاؤه بواسطة
+    </p>
+</footer>
+
 </body>
-  </html>
+
+<script>
+    function checkKeyboard() {
+        const footer = document.querySelector('footer');
+        const windowHeight = window.innerHeight;
+        const bodyHeight = document.body.clientHeight;
+
+        // إذا كان ارتفاع الجسم أكبر من نافذة العرض، الكيبورد مفتوح
+        if (windowHeight < bodyHeight) {
+            footer.style.display = 'none'; // إخفاء النص
+        } else {
+            footer.style.display = 'block'; // إظهار النص
+        }
+    }
+
+    window.addEventListener('resize', checkKeyboard); // استدعاء الدالة عند تغيير حجم النافذة
+</script>
+</body>
+</html>
