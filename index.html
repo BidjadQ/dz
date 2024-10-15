@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 95%;
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 25px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin: -5px 0;
+            font-weight: bold;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -30px;
+            background: linear-gradient(to bottom, #FFD731 50%, #000 50%);
+            color: black;
+            padding: 10px;
+            width: 500%;
+            max-width: 1000px;
+            box-sizing: border-box;
+        }
+
+        h1 span {
+            text-align: center;
+            color: white;
+            width: 100%;
+            transform: translateX(50px);
+        }
+
+        .button-container {
+            position: absolute;
+            top: 115px;
+            left: 30px;
+            display: flex;
+            gap: 10px;
+            display: none;
+        }
+
+        .my-button {
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 50px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button1 {
+            background-color: red;
+        }
+
+        .button2 {
+            background-color: black;
+        }
+
+        .send-button {
+            background-color: #28a745; /* لون زر الإرسال */
+            color: white;
+            width: 120px;
+            height: 50px;
+            border: none;
+            border-radius: 25px; /* جعل الزر دائري الشكل */
+            margin-top: 20px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* إضافة ظل */
+            transition: all 0.3s ease; /* تأثير الانتقال */
+        }
+
+        .send-button:hover {
+            background-color: #218838; /* تغيير اللون عند التمرير */
+        }
+
+        .send-button:active {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* تقليل الظل عند الضغط */
+            transform: translateY(2px); /* تحريك الزر لأسفل عند الضغط */
+        }
+
+        .message-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+            margin-bottom: 2px;
+            width: 100%;
+            max-width: 500px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        select, .file-input-container {
+            width: 40%;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            direction: rtl;
+            text-align: right;
+            border: 2px solid black;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            background-color: #FFD731;
+        }
+
+        .file-input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 2px solid black;
+            background-color: #FFD731;
+            position: relative;
+            overflow: hidden;
+            width: 35%;
+            height: 34px;
+        }
+
+        .file-input-container input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-input-container label {
+            font-size: 12px;
+            z-index: 1;
+            color: black;
+            pointer-events: none;
+        }
+
+        textarea {
+            width: 93%;
+            min-height: 150px;
+            max-height: 150px;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            margin-bottom: 20px;
+            resize: none;
+            background-color: #ffffff;
+            transition: box-shadow 0.3s ease;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .thumbnail {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px; /* زيادة الحشو لجعل الـ bubble أكبر */
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .thumbnail img {
+            max-width: 500px; /* زيادة الحد الأقصى لعرض الصورة */
+            max-height: 500px; /* زيادة الحد الأقصى لارتفاع الصورة */
+            margin-bottom: 10px;
+        }
+
+        .close-button {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        let selectedFile = null;
+
+        function handleFileSelect(event) {
+            const buttonContainer = document.querySelector('.button-container');
+            if (event.target.files.length > 0) {
+                buttonContainer.style.display = 'flex';
+                selectedFile = event.target.files[0];
+            }
+        }
+
+        function previewImage() {
+            if (selectedFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('thumbnail-img');
+                    img.src = e.target.result;
+                    const thumbnail = document.getElementById('thumbnail');
+                    thumbnail.style.display = 'flex';
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        }
+
+        function removeImage() {
+            const buttonContainer = document.querySelector('.button-container');
+            const fileInput = document.getElementById('fileInput');
+            const thumbnail = document.getElementById('thumbnail');
+            selectedFile = null;
+            fileInput.value = "";
+            thumbnail.style.display = 'none';
+            buttonContainer.style.display = 'none';
+        }
+
+        function closeThumbnail() {
+            const thumbnail = document.getElementById('thumbnail');
+            thumbnail.style.display = 'none';
+        }
+
+        function sendMessage() {
+    const message = document.getElementById('message').value.trim();
+    const serviceType = document.getElementById('serviceType').value;
+
+    if (message === "") {
+        alert("يرجى كتابة نص الرسالة.");
+        return;
+    }
+    if (serviceType === "") {
+        alert("يرجى اختيار موضوع الخدمة.");
+        return;
+    }
+
+    // تحقق مما إذا كانت هناك محاولة سابقة للإرسال
+    const storedData = localStorage.getItem('lastSentData');
+    if (storedData) {
+        const data = JSON.parse(storedData);
+        const currentTime = Date.now();
+        
+        // تحقق مما إذا كانت البيانات مخزنة لأقل من 24 ساعة
+        if (currentTime - data.timestamp < 24 * 60 * 60 * 1000) {
+            alert("لقد قمت بإرسال رسالة مؤخرًا. يرجى الانتظار لمدة 24 ساعة قبل المحاولة مرة أخرى.");
+            return;
+        }
+    }
+
+    const chatId = '-1002461835858'; // معرف القناة
+    const token = '6475537242:AAGOH4tKKQPVjqwwkO6g5NkJYUR-QDQknmc'; // توكن البوت
+
+    // إنشاء رابط الـ API
+    let apiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
+
+    // إرسال الرسالة
+    const sendData = {
+        chat_id: chatId,
+        text: `موضوع الخدمة: ${serviceType}\nالرسالة: ${message}`
+    };
+
+    // إرسال طلب HTTP باستخدام Fetch API
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(sendData)
+    })
+    .then(response => {
+        if (response.ok) {
+            // تخزين البيانات في localStorage لمدة 24 ساعة
+            const dataToStore = {
+                serviceType: serviceType,
+                message: message,
+                timestamp: Date.now() // الوقت الحالي
+            };
+            localStorage.setItem('lastSentData', JSON.stringify(dataToStore));
+
+            // تحقق مما إذا كانت هناك صورة لإرسالها
+            if (selectedFile) {
+                sendPhoto(); // إذا تم اختيار صورة، أرسل الصورة أيضًا
+            } else {
+                window.location.href = 'https://bidjadq.github.io/blida/'; // فتح الرابط
+            }
+        } else {
+            alert("فشل في إرسال الرسالة.");
+        }
+    })
+    .catch(error => {
+        console.error('خطأ:', error);
+    });
+}
+
+// دالة لإرسال الصورة
+function sendPhoto() {
+    const chatId = '-1002461835858'; // معرف القناة
+    const token = '6475537242:AAGOH4tKKQPVjqwwkO6g5NkJYUR-QDQknmc'; // توكن البوت
+    const apiUrl = `https://api.telegram.org/bot${token}/sendPhoto`;
+
+    const formData = new FormData();
+    formData.append('chat_id', chatId);
+    formData.append('photo', selectedFile);
+    formData.append('caption', `موضوع الخدمة: ${document.getElementById('serviceType').value}\n${document.getElementById('message').value}`);
+
+    // إرسال طلب HTTP باستخدام Fetch API
+    fetch(apiUrl, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            // تخزين البيانات في localStorage لمدة 24 ساعة
+            const dataToStore = {
+                serviceType: document.getElementById('serviceType').value,
+                message: document.getElementById('message').value,
+                timestamp: Date.now() // الوقت الحالي
+            };
+            localStorage.setItem('lastSentData', JSON.stringify(dataToStore));
+
+            window.location.href = 'https://bidjadq.github.io/blida/'; // فتح الرابط
+        } else {
+            alert("فشل في إرسال الصورة.");
+        }
+    })
+    .catch(error => {
+        console.error('خطأ:', error);
+    });
+}
+
+// دالة لإزالة البيانات القديمة من localStorage
+function removeOldData() {
+    const storedData = localStorage.getItem('lastSentData');
+    if (storedData) {
+        const data = JSON.parse(storedData);
+        const currentTime = Date.now();
+        
+        // تحقق مما إذا كانت البيانات قديمة (أكثر من 24 ساعة)
+        if (currentTime - data.timestamp > 24 * 60 * 60 * 1000) {
+            localStorage.removeItem('lastSentData');
+        }
+    }
+}
+
+// استدعاء دالة إزالة البيانات القديمة عند تحميل الصفحة
+window.onload = removeOldData;
+    </script>
+</head>
+<body>
+    <div class="button-container">
+        <button class="my-button button1" onclick="removeImage()">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+        <button class="my-button button2" onclick="previewImage()">
+            <i class="fas fa-eye"></i>
+        </button>
+    </div>
+
+    <h1>Services<span>Blida</span></h1>
+
+    <div class="message-container">
+        <div class="file-input-container">
+            <label for="fileInput">اختر صورة</label>
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" />
+        </div>
+
+        <select id="serviceType">
+            <option value="">اختر نوع الخدمة</option>
+            <option value="وثائق مفقودة">وثائق مفقودة</option>
+            <option value="أغراض مفقودة">أغراض مفقودة</option>
+           <option value="أرقام هواتف">أرقام هواتف</option>
+            <option value="طلب مساعدة">طلب مساعدة</option>
+        </select>
+    </div>
+
+    <textarea id="message" placeholder="اكتب رسالتك هنا..."></textarea>
+    
+    <button class="send-button" onclick="sendMessage()">إرسال</button>
+
+    <div class="thumbnail" id="thumbnail">
+        <img id="thumbnail-img" src="" alt="صورة المعاينة" />
+        <button class="close-button" onclick="closeThumbnail()">إغلاق</button>
+    </div>
+</body>
+  </html>
